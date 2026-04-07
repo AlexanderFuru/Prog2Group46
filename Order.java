@@ -27,4 +27,18 @@ public class Order {
         return total;
 
     }
+
+    public double getTotalValuePlusVAT()
+    {
+        double total = 0d;
+
+        for(Item item : items)
+        {
+            total += item.getPriceWithVAT();
+        }
+
+        return total;
+    }
+
+    
 }
