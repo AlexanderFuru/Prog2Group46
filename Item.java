@@ -1,7 +1,6 @@
 public abstract class Item {
 
     private String name;
-    //Implementera Interface Pricable
 
     public Item(String name){
         this.name = name;

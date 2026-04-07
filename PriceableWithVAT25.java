@@ -1,3 +1,6 @@
-public interface PriceableWithVAT25 {
-    void GetVAT();
+public interface PriceableWithVAT25 extends Priceable{
+    @Override
+    default double getVAT(){
+        return 0.25;
+    }
 }
