@@ -1,5 +1,5 @@
 public class Book {
-    
+
     private String name;
 
     public Book(String name, String author, double price, boolean bound){
