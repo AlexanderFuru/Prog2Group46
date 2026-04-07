@@ -1,9 +1,9 @@
-public class Book {
+public class Book extends Item {
 
     private String name;
 
     public Book(String name, String author, double price, boolean bound){
-        this.name = name.toUpperCase();
+        super(name);
     }
 
     public double getPrice(double price){
