@@ -40,5 +40,22 @@ public class Order {
         return total;
     }
 
-    
+    public String getReceipt()
+    {
+        String result = "Receipt for order #" + orderNumber + "\n" + "-----------\n";
+        
+        for (Item item : items) 
+            {
+                result += item.toString() + "\n";
+
+            }
+
+
+        result += "Total excl . VAT :" + getTotalValue() + "\n";
+        result += "Total incl . VAT :" + getTotalValuePlusVAT();
+        
+        return result; 
+    }
+
+
 }
