@@ -15,4 +15,16 @@ public class Order {
         this.orderNumber = counter;
     }
 
+    public double getTotalValue()
+    {
+        double total = 0d;
+
+        for(Item item : items)
+        {
+            total += item.getPrice();
+        }
+
+        return total;
+
+    }
 }
