@@ -31,5 +31,7 @@ public class TestusClassus {
 
         //Ta fram kvitto
         System.out.println(order.getReceipt());
+
+        
     }
 }
