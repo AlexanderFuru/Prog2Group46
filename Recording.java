@@ -29,13 +29,7 @@ public abstract class Recording extends Item implements PriceableWithVAT25{
 
     @Override
     public double getPrice() {
-        double value = price * (condition / 10.0);
-
-        if (value < 10) {
-            value = 10;
-        }
-
-        return value;
+       return Math.max(10, getOriginalPrice() * getCondition() / 10.0 + (2026 - year));
     }
 
     protected double getOriginalPrice() {
