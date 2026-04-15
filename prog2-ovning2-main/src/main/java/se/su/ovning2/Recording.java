@@ -42,4 +42,29 @@ public class Recording {
   public String toString() {
     return String.format("{ %s | %s | %s | %d | %s }", artist, title, genre, year, type);
   }
+
+
+ //Anna la till detta:
+
+  @Override
+
+  public boolean equals(Object o) 
+  {
+    if (this == o ) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    
+    Recording that = (Recording) o;
+
+    return year== that.year && 
+      artist.equals(that.artist) &&
+      title.equals(that.title) &&
+      type.equals(that.type);
+
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return java.util.Objects.hash(artist, title, year, type);
+  }
 }
