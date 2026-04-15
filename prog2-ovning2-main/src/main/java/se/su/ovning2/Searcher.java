@@ -2,18 +2,21 @@ package se.su.ovning2;
 
 import java.util.Collection;
 import java.util.SortedSet;
+import java.util.Set;
 
 public class Searcher implements SearchOperations {
+  Set<String> artists = new HashSet<>();
 
   public Searcher(Collection<Recording> data) {
-
-    Collection<Recording> recordings = data;
+    for (Recording r : data){
+      artists.add(r.getArtist());
+    }
+  
   }
 
   @Override
   public long numberOfArtists() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'numberOfArtists'");
+    return artists.size();
   }
 
   @Override
@@ -30,8 +33,7 @@ public class Searcher implements SearchOperations {
 
   @Override
   public boolean doesArtistExist(String name) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'doesArtistExist'");
+    return artists.contains(name);
   }
 
   @Override
@@ -54,9 +56,7 @@ public class Searcher implements SearchOperations {
 
   @Override
   public SortedSet<Recording> getRecordingsByArtistOrderedByYearAsc(String artist) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException(
-        "Unimplemented method 'getRecordingsByArtistOrderedByYearAsc'");
+   
   }
 
   @Override

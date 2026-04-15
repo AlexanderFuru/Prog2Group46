@@ -1,9 +1,10 @@
 package se.su.ovning2;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
-public class Recording {
+public class Recording implements Comparable<Recording> {
   private final int year;
   private final String artist;
   private final String title;
@@ -43,28 +44,42 @@ public class Recording {
     return String.format("{ %s | %s | %s | %d | %s }", artist, title, genre, year, type);
   }
 
-
- //Anna la till detta:
-
   @Override
 
-  public boolean equals(Object o) 
+  public boolean equals(Object other) 
   {
-    if (this == o ) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (other instanceof Recording r) {
+      return r.year == this.year && r.title.equals(this.title) && r.artist.equals(this.artist);
+
+    } else{
+      return false;
+    }
     
-    Recording that = (Recording) o;
-
-    return year== that.year && 
-      artist.equals(that.artist) &&
-      title.equals(that.title) &&
-      type.equals(that.type);
-
   }
 
   @Override
   public int hashCode()
   {
-    return java.util.Objects.hash(artist, title, year, type);
+    return Objects.hash(year, artist, title);
   }
+
+ @Override
+ public int compareTo(Recording o) {
+
+  if (year > o.year) {
+    return 1;
+  } else if (year < o.year) {
+    return -1;
+  } else if(title.compareTo(o.title) > 0) {
+    return 1;
+  } else if (title.compareTo(o.title) < 0) {
+    return -1;
+  } else if (artist.compareTo(o.artist) > 0) {
+    return 1;
+  } else if (artist.compareTo(o.artist) < 0) {
+    return -1;
+  } else{
+    return 0;
+  }
+}
 }
