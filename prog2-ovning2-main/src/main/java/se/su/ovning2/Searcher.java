@@ -1,22 +1,39 @@
 package se.su.ovning2;
 
-import java.util.Collection;
-import java.util.SortedSet;
-import java.util.Set;
+import java.util.*; 
 
 public class Searcher implements SearchOperations {
-  Set<String> artists = new HashSet<>();
+
+  private static class RecordingYearComparator implements Comparator <Recording> {
+    @Override
+    public int compare(Recording a, Recording b){
+      return a.getYear() - b.getYear();
+    }
+
+  } 
+
+  private static Comparator<Recording> RECORDING_BY_YEAR = new RecordingYearComparator();
+
+  private final Map<String, Set<Recording>> artistToRecordings = new HashMap<>();
+  private final Map<String, Recording> titleToRecording = new HashMap<>();
 
   public Searcher(Collection<Recording> data) {
     for (Recording r : data){
-      artists.add(r.getArtist());
+      Set<Recording> sameArtist = artistToRecordings.get(r.getArtist());
+      if(sameArtist == null) {
+        sameArtist = new HashSet<>();
+        artistToRecordings.put(r.getArtist(), sameArtist);
+      }
+      sameArtist.add(r);
+      titleToRecording.put(r.getTitle(), r);
+      
     }
   
   }
 
   @Override
   public long numberOfArtists() {
-    return artists.size();
+    return artistToRecordings.size();
   }
 
   @Override
@@ -27,13 +44,12 @@ public class Searcher implements SearchOperations {
 
   @Override
   public long numberOfTitles() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'numberOfTitles'");
+  return titleToRecording.size();
   }
 
   @Override
   public boolean doesArtistExist(String name) {
-    return artists.contains(name);
+    return artistToRecordings.containsKey(name);
   }
 
   @Override
@@ -44,8 +60,7 @@ public class Searcher implements SearchOperations {
 
   @Override
   public Recording getRecordingByName(String title) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getRecordingByName'");
+  return titleToRecording.get(title);
   }
 
   @Override
@@ -56,7 +71,14 @@ public class Searcher implements SearchOperations {
 
   @Override
   public SortedSet<Recording> getRecordingsByArtistOrderedByYearAsc(String artist) {
-   
+   Set<Recording> sameArtist = artistToRecordings.get(artist);
+    if(sameArtist == null) {
+      return Collections.emptySortedSet();
+    }
+
+    SortedSet<Recording> sortedRecording = new TreeSet<>( RECORDING_BY_YEAR);
+    sortedRecording.addAll(sameArtist);
+   return Collections.unmodifiableSortedSet(sortedRecording);
   }
 
   @Override
