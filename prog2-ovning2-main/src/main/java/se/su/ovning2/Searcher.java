@@ -18,6 +18,7 @@ public class Searcher implements SearchOperations {
   private final Map<String, Set<Recording>> genreToRecordings = new HashMap<>();
   private final Map<String, Recording> titleToRecording = new HashMap<>();
   private final Set<Recording> allRecording = new HashSet<>();
+  private final SortedMap<Integer, Set<Recording>> yearToRecordings= new TreeMap<>();
 
   public Searcher(Collection<Recording> data) {
     for (Recording r : data){
@@ -38,6 +39,13 @@ public class Searcher implements SearchOperations {
         }
         sameGenre.add(r);
       }
+
+      Set<Recording> sameYear = yearToRecordings.get(r.getYear());
+      if(sameYear == null) {
+        sameYear = new HashSet<>();
+        yearToRecordings.put(r.getYear(), sameYear);
+      }
+      sameYear.add(r);
     }
   
   }
@@ -74,8 +82,12 @@ public class Searcher implements SearchOperations {
 
   @Override
   public Collection<Recording> getRecordingsAfter(int year) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getRecordingsAfter'");
+   SortedMap<Integer, Set<Recording>> afterYear = yearToRecordings.tailMap(year);
+   Set<Recording> allAfter = new HashSet<>();
+   for(Set<Recording> currentYear : afterYear.values()) {
+    allAfter.addAll(currentYear);
+   }
+   return Collections.unmodifiableSet(allAfter);
   }
 
   @Override
