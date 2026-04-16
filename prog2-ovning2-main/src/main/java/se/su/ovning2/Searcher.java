@@ -16,6 +16,7 @@ public class Searcher implements SearchOperations {
 
   private final Map<String, Set<Recording>> artistToRecordings = new HashMap<>();
   private final Map<String, Recording> titleToRecording = new HashMap<>();
+  private final Set<Recording> allRecording = new HashSet<>();
 
   public Searcher(Collection<Recording> data) {
     for (Recording r : data){
@@ -26,7 +27,7 @@ public class Searcher implements SearchOperations {
       }
       sameArtist.add(r);
       titleToRecording.put(r.getTitle(), r);
-      
+      allRecording.add(r); 
     }
   
   }
@@ -95,7 +96,12 @@ public class Searcher implements SearchOperations {
 
   @Override
   public Collection<Recording> offerHasNewRecordings(Collection<Recording> offered) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'offerHasNewRecordings'");
+    Set<Recording> missing = new HashSet <>(offered);
+    for(Recording r : offered) {
+      if (!allRecording.contains(r)){
+      missing.add(r);
+      }
+    }
+    return Collections.unmodifiableSet(missing);
   }
 }
