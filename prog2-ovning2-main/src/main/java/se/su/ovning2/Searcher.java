@@ -15,6 +15,7 @@ public class Searcher implements SearchOperations {
   private static Comparator<Recording> RECORDING_BY_YEAR = new RecordingYearComparator();
 
   private final Map<String, Set<Recording>> artistToRecordings = new HashMap<>();
+  private final Map<String, Set<Recording>> genreToRecordings = new HashMap<>();
   private final Map<String, Recording> titleToRecording = new HashMap<>();
   private final Set<Recording> allRecording = new HashSet<>();
 
@@ -27,7 +28,16 @@ public class Searcher implements SearchOperations {
       }
       sameArtist.add(r);
       titleToRecording.put(r.getTitle(), r);
-      allRecording.add(r); 
+      allRecording.add(r);
+      
+      for(String genre : r.getGenre()) {
+        Set<Recording> sameGenre = genreToRecordings.get(genre);
+        if(sameGenre == null) {
+          sameGenre = new HashSet<>();
+          genreToRecordings.put(genre, sameGenre);
+        }
+        sameGenre.add(r);
+      }
     }
   
   }
@@ -39,8 +49,7 @@ public class Searcher implements SearchOperations {
 
   @Override
   public long numberOfGenres() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'numberOfGenres'");
+  return genreToRecordings.size();
   }
 
   @Override
@@ -55,8 +64,7 @@ public class Searcher implements SearchOperations {
 
   @Override
   public Collection<String> getGenres() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getGenres'");
+  return Collections.unmodifiableSet(genreToRecordings.keySet());
   }
 
   @Override
@@ -84,8 +92,11 @@ public class Searcher implements SearchOperations {
 
   @Override
   public Collection<Recording> getRecordingsByGenre(String genre) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getRecordingsByGenre'");
+  Set<Recording> sameGenre = genreToRecording.get(genre);
+  if(sameGenre == null) {
+    return Collections.emptySet();
+  }
+    return Collections.unmodifiableSet(sameGenre);
   }
 
   @Override
