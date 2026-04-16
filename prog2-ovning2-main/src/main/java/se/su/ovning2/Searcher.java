@@ -113,8 +113,17 @@ public class Searcher implements SearchOperations {
 
   @Override
   public Collection<Recording> getRecordingsByGenreAndYear(String genre, int yearFrom, int yearTo) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getRecordingsByGenreAndYear'");
+    Set<Recording> sameGenre = genreToRecordings.get(genre);
+    Set<Recording> betweenYear = new HashSet<>();
+    for(Recording r : sameGenre) {
+      int year = r.getYear();
+      if(year < yearTo && year > yearFrom) {
+        betweenYear.add(r);
+
+        return Collections.unmodifiableSet(betweenYear);
+      }
+    }
+
   }
 
   @Override
