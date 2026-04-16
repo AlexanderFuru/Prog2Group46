@@ -104,7 +104,7 @@ public class Searcher implements SearchOperations {
 
   @Override
   public Collection<Recording> getRecordingsByGenre(String genre) {
-  Set<Recording> sameGenre = genreToRecording.get(genre);
+  Set<Recording> sameGenre = genreToRecordings.get(genre);
   if(sameGenre == null) {
     return Collections.emptySet();
   }
@@ -117,13 +117,13 @@ public class Searcher implements SearchOperations {
     Set<Recording> betweenYear = new HashSet<>();
     for(Recording r : sameGenre) {
       int year = r.getYear();
-      if(year < yearTo && year > yearFrom) {
+      if(year <= yearTo && year >= yearFrom) {
         betweenYear.add(r);
 
-        return Collections.unmodifiableSet(betweenYear);
+        
       }
     }
-
+    return Collections.unmodifiableSet(betweenYear);
   }
 
   @Override
