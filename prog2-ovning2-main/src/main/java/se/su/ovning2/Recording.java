@@ -59,17 +59,20 @@ public int compareTo(Recording o){
   else if (year < o.year)
     return -1;
 
-  else if ()
-    return 
+  else if (title.compareTo(o.title) > 0)
+    return 1;
 
-  else if ()
-    return
+  else if (title.compareTo(o.)
+    return -1;
       
   else if ()
-    return
+    return 1;
 
   else if ()
-    return
+    return -1;
+
+  else
+    return;
 }
 
   @Override
